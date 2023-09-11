@@ -7,6 +7,7 @@
         public const string Version = "v1";
 
         public const string Base = $"{Root}/{Version}";
+
         public static class Forecasts
         {
             public const string GetAll = Base + "/forecasts";
@@ -18,6 +19,13 @@
             public const string Create = Base + "/forecasts";
 
             public const string Delete = Base + "/forecasts/{forecastId}";
+        }
+
+        public static class Identity
+        {
+            public const string Login = Base + "/identity/login";
+
+            public const string Register = Base + "/identity/register";
         }
     }
 }

@@ -1,15 +1,21 @@
-﻿using WebApiGonBust.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using WebApiGonBust.Data;
 using WebApiGonBust.Services;
 
 namespace WebApiGonBust.Installers
 {
-    public class DbInstaller : IInstaller
+    public static class DbInstaller
     {
-        public void InstallServices(WebApplicationBuilder builder)
+        public static void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
-            builder.Services.AddDbContext<DataContext>();
+            services.AddDbContext<DataContext>(options =>
+                options.UseSqlServer(
+                    configuration.GetConnectionString("DefaultConnection")));
+            services.AddIdentityCore<IdentityUser>()
+                .AddEntityFrameworkStores<DataContext>();
 
-            builder.Services.AddScoped<IForecastService, ForecastService>();
+            services.AddScoped<IForecastService, ForecastService>();
         }
     }
 }

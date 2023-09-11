@@ -33,7 +33,7 @@ namespace WebApiGonBust
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            app.UseAuthentication();
 
             app.MapControllers();
 

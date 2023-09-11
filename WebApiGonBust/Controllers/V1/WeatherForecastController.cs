@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiGonBust.Contracts.V1;
 using WebApiGonBust.Contracts.V1.Requests;
@@ -7,6 +9,7 @@ using WebApiGonBust.Services;
 
 namespace WebApiGonBust.Controllers.V1
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class WeatherForecastController : ControllerBase
     {
         private readonly IForecastService _forecastService;
