@@ -51,5 +51,18 @@ namespace WebApiGonBust.Services
 
             return deleted > 0;
         }
+
+        public async Task<bool> UserOwnsForecastAsync(Guid forecastId, string userId)
+        {
+            var forecast = await _dataContext.Forecasts.AsNoTracking().SingleOrDefaultAsync(x => x.Id == forecastId);
+
+            if (forecast == null)
+                return false;
+
+            if (forecast.UserId != userId)
+                return false;
+
+            return true;
+        }
     }
 }

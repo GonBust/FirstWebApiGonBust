@@ -14,5 +14,7 @@ namespace WebApiGonBust.Services
         Task<bool> UpdateForecastAsync(WeatherForecast forecastToUpdate);
 
         Task<bool> DeleteForecastAsync(Guid forecastId);
+
+        Task<bool> UserOwnsForecastAsync(Guid forecastId, string userId);
     }
 }

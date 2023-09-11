@@ -5,6 +5,7 @@ using WebApiGonBust.Contracts.V1;
 using WebApiGonBust.Contracts.V1.Requests;
 using WebApiGonBust.Contracts.V1.Responses;
 using WebApiGonBust.Domain;
+using WebApiGonBust.Extensions;
 using WebApiGonBust.Services;
 
 namespace WebApiGonBust.Controllers.V1
@@ -39,10 +40,13 @@ namespace WebApiGonBust.Controllers.V1
         [HttpPut(ApiRoutes.Forecasts.Update)]
         public async Task<IActionResult> Update([FromRoute] Guid forecastId, [FromBody] UpdateForecastRequest request)
         {
-            var forecast = new WeatherForecast 
-            { 
-                Id = forecastId, Date = request.Date 
-            };
+            var userOwnsForecast = await _forecastService.UserOwnsForecastAsync(forecastId, HttpContext.GetUserId());
+
+            if (!userOwnsForecast)
+                return BadRequest(new { Error = "You do not Own this post" });
+
+            var forecast = await _forecastService.GetForecastByIdAsync(forecastId);
+            forecast.Date = request.Date;
 
             var updated = await _forecastService.UpdateForecastAsync(forecast);
 
@@ -55,7 +59,11 @@ namespace WebApiGonBust.Controllers.V1
         [HttpPost(ApiRoutes.Forecasts.Create)]
         public async Task<IActionResult> Create([FromBody] CreateForecastRequest forecastRequest)
         {
-            var weatherForecast = new WeatherForecast { Date = forecastRequest.Date };
+            var weatherForecast = new WeatherForecast 
+            { 
+                Date = forecastRequest.Date,
+                UserId = HttpContext.GetUserId()
+            };
 
             await _forecastService.CreateForecastAsync(weatherForecast);
 
@@ -69,6 +77,11 @@ namespace WebApiGonBust.Controllers.V1
         [HttpDelete(ApiRoutes.Forecasts.Delete)]
         public async Task<IActionResult> Delete([FromRoute] Guid forecastId)
         {
+            var userOwnsForecast = await _forecastService.UserOwnsForecastAsync(forecastId, HttpContext.GetUserId());
+
+            if (!userOwnsForecast)
+                return BadRequest(new { Error = "You do not Own this post" });
+
             var deleted = await _forecastService.DeleteForecastAsync(forecastId);
 
             if (deleted)
