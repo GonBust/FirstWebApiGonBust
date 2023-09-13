@@ -64,5 +64,10 @@ namespace WebApiGonBust.Services
 
             return true;
         }
+
+        public async Task<List<Tags>> GetTagsAsync()
+        {
+            return await _dataContext.Tags.ToListAsync();
+        }
     }
 }

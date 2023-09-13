@@ -13,6 +13,8 @@ namespace WebApiGonBust.Data
 
         public DbSet<WeatherForecast> Forecasts { get; set; }
 
+        public DbSet<Tags> Tags { get; set; }
+
         public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }

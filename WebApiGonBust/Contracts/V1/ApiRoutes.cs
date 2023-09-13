@@ -21,6 +21,11 @@
             public const string Delete = Base + "/forecasts/{forecastId}";
         }
 
+        public static class Tags
+        {
+            public const string GetAll = Base + "/tags";
+        } 
+
         public static class Identity
         {
             public const string Login = Base + "/identity/login";

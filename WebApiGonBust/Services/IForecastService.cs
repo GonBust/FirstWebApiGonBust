@@ -1,5 +1,4 @@
 ﻿using WebApiGonBust.Domain;
-using static WebApiGonBust.Contracts.V1.ApiRoutes;
 
 namespace WebApiGonBust.Services
 {
@@ -16,5 +15,6 @@ namespace WebApiGonBust.Services
         Task<bool> DeleteForecastAsync(Guid forecastId);
 
         Task<bool> UserOwnsForecastAsync(Guid forecastId, string userId);
+        Task<List<Tags>> GetTagsAsync();
     }
 }

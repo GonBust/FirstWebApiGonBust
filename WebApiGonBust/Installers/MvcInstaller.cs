@@ -41,6 +41,11 @@ namespace WebApiGonBust.Installers
                 x.TokenValidationParameters = tokenValidationParameters;
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("TagViewer", builder => builder.RequireClaim("tags.view", "true"));
+            });
+
             services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
